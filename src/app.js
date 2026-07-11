@@ -1,0 +1,19 @@
+import express from 'express'
+import healthRoutes from './routes/health.routes.js';
+import { notFound } from './middlewares/notFound.middleware.js';
+import { errorHandler } from './middlewares/error.middleware.js';
+import authRouter from './routes/auth.routes.js';
+
+const app = express()
+
+app.use(express.json())
+
+app.use("/api/health", healthRoutes)
+
+app.use("/api/auth", authRouter)
+
+app.use(notFound)
+
+app.use(errorHandler)
+
+export default app;

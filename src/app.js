@@ -3,6 +3,7 @@ import healthRoutes from './routes/health.routes.js';
 import { notFound } from './middlewares/notFound.middleware.js';
 import { errorHandler } from './middlewares/error.middleware.js';
 import authRouter from './routes/auth.routes.js';
+import productsRouter from './routes/products.routes.js';
 
 const app = express()
 
@@ -11,6 +12,8 @@ app.use(express.json())
 app.use("/api/health", healthRoutes)
 
 app.use("/api/auth", authRouter)
+
+app.use("/api/products", productsRouter)
 
 app.use(notFound)
 

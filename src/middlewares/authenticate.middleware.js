@@ -8,7 +8,11 @@ export const authenticate = (req, res, next) => {
         if(!authHeader){
             throw new AppError("Token no proporcionado", 401)
         }
-        const token = authHeader.split(" ")[1];
+        const [scheme, token] = authHeader.split(" ");
+
+        if(scheme !== "Bearer"){
+            throw new AppError("Formato de Autorización Inválido", 401)
+        }
 
         if(!token){
             throw new AppError("Token no proporcionado", 404)

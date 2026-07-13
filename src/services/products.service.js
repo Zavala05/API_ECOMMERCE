@@ -28,6 +28,7 @@ export const createProduct = async (data) => {
     }catch(error){
         throw error;
     }
+    
 
    
     
@@ -54,4 +55,37 @@ export const getProducts = async()=>{
         throw error;
     }
 }
-    
+
+export const deleteProduct = async(id)=>{
+    try{   
+        const findProduct = await prisma.product.findUnique({
+            where: {
+                id
+            }
+        })
+
+        if(!findProduct){
+            throw new AppError("El producto que intenta eliminar no existe", 404)
+        }
+
+        const deletedproduct = await prisma.product.delete({
+            where:{
+                id
+            }, 
+            select:{
+                name:true,
+                description: true,
+                price: true,
+                imageURL: true
+            }
+        
+        })
+
+
+        return deletedproduct;
+
+    }catch(error){
+        console.log("Error al borrar los datos de la DB: ", error)
+        throw error;
+    }
+}

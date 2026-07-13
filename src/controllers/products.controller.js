@@ -1,5 +1,6 @@
-import { success } from "zod";
-import { createProduct, getProducts } from "../services/products.service.js";
+import { number, success } from "zod";
+import { createProduct, getProducts, deleteProduct } from "../services/products.service.js";
+import { AppError } from "../utils/appError.js";
 
 
 export const createProductController = async (req, res, next) => {
@@ -26,6 +27,28 @@ export const getProductsController = async (req, res, next) => {
         })
     }catch(error){
         console.log("Error al obtener datos: ", error);
-        throw error;
+        next(error)
     }
 }
+
+export const deleteProductController = async(req, res, next) => {
+    try{
+        const product_id = Number(req.params.id)
+
+        if (!Number.isInteger(product_id) || product_id <= 0){
+            throw new AppError("El ID del producto debe ser un entero positivo", 400)
+        }
+
+        const product = await deleteProduct(product_id);
+
+        return res.status(200).json({
+            success:true,
+            message:"Producto eliminado exitosamente",
+            data:product
+        })
+        
+    }catch(error){
+       next(error)
+    }
+}
+

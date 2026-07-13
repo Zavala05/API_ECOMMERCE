@@ -98,3 +98,32 @@ export const getMe = async(userId) => {
 
     return user;
 }
+
+export const deleteUser = async(id)=>{
+    try{
+        const findUser = await prisma.user.findUnique({
+            where:{
+                id
+            }
+        })
+
+        if(!findUser){
+            throw new AppError("El Usuario que desea eliminar no existe", 404)
+        }
+
+        const deletedUser = await prisma.user.delete({
+            where:{
+                id
+            },
+            select:{
+                id: true,
+                name:true,
+                email:true
+            }
+        })
+
+    }catch(error){
+        console.log("Error al borrar el Usuario de la DB ", error);
+        throw error;
+    }
+}

@@ -16,6 +16,12 @@ enum Role {
   ADMIN
 }
 
+enum states{
+  PEND
+  DONE
+  CANCELLED
+}
+
 model User{
     id Int @id @default(autoincrement())
     name String
@@ -26,12 +32,26 @@ model User{
     updatedAt DateTime @updatedAt
 }
 
-model Product{
+model Product {
+  id            Int      @id @default(autoincrement())
+  name          String
+  description   String?
+  price         Float
+
+  imageURL      String?
+
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+
+model appointments {
   id Int @id @default(autoincrement())
-  name String
-  description String?
-  price Float
-  imageURL String?
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  client_name String
+  phone String
+  description String
+  date DateTime
+  createdAt     DateTime @default(now())
+  appointment_state states @default(PEND)
+
 }

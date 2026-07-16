@@ -89,3 +89,40 @@ export const deleteProduct = async(id)=>{
         throw error;
     }
 }
+
+
+export const editProduct = async(id, data)=>{
+    try{
+        const findProduct = await prisma.product.findUnique({
+            where:{
+                id
+            }
+        })
+
+        if(!findProduct){
+            throw new AppError("El producto que desea editar no existe", 404);
+        }
+
+        const editedProduct = await prisma.product.update({
+            where:{
+                id
+            },
+            data:{
+                name: data.name,
+                price: data.price,
+                description: data.description,
+                imageURL: data.imageURL
+            },
+            select:{
+                name: true, 
+                price: true,
+                description: true,
+                imageURL: true
+            }
+        })
+
+        return editProduct;
+    }catch(error){
+        throw error;
+    }
+}

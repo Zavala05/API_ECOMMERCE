@@ -1,5 +1,5 @@
 import { number, success } from "zod";
-import { createProduct, getProducts, deleteProduct } from "../services/products.service.js";
+import { createProduct, getProducts, deleteProduct, editProduct } from "../services/products.service.js";
 import { AppError } from "../utils/appError.js";
 
 
@@ -49,6 +49,23 @@ export const deleteProductController = async(req, res, next) => {
         
     }catch(error){
        next(error)
+    }
+}
+
+export const updateProductController = async (req, res, next) => {
+    try{
+        const id = Number(req.params.id)
+        const newData = req.body;
+        
+        const newProduct = editProduct(id, newData)
+
+        return res.status(200).json({
+            success: true,
+            message: "Producto editado de forma exitosa",
+            data:newProduct
+        })
+    }catch(error){
+        next(error);
     }
 }
 

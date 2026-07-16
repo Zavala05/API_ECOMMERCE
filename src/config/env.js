@@ -6,6 +6,8 @@ const envSchema = z.object({
     JWT_SECRET: z
         .string()
         .min(16, "JWT_SECRET debe tener al menos 16 caracteres"),
+    
+    FRONTEND_URL: z.string().url(),
 });
 
 const result = envSchema.safeParse(process.env);
